@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Opening App...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript">
+    function isIOS() {
+      return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    function isAndroid() {
+      return /Android/i.test(navigator.userAgent);
+    }
+
+    function openApp() {
+      var now = Date.now();
+
+      // Set fallback after 1500ms
+      setTimeout(function () {
+        if (Date.now() - now < 2000) {
+          if (isIOS()) {
+            window.location.href = "https://www.google.co"; // Replace with your app's App Store link
+          } else if (isAndroid()) {
+            window.location.href = "https://www.google.co"; // Replace with your app's Play Store link
+          }
+        }
+      }, 1500);
+
+      // Try to open the app
+      if (isIOS()) {
+        window.location = "ptd-mobile://email"; // Replace with your app's custom scheme
+      } else if (isAndroid()) {
+        window.location = "intent://email#Intent;scheme=ptd-mobile;package=com.ptd.femobileapp;end"; // Replace all placeholders
+      }
+    }
+  </script>
+</head>
+<body onload="openApp()" style="text-align:center; padding-top:40px;">
+  <h2>Opening the app...</h2>
+  <p>If the app doesn't open automatically, you will be redirected shortly.</p>
+</body>
+</html>
