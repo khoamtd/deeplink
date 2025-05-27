@@ -28,6 +28,9 @@
         case "reset-password":
           deepLinkPath = `${appScheme}://reset-password?email=${encodeURIComponent(email)}`;
           break;
+        case "email":
+          deepLinkPath = `${appScheme}://email?email=${encodeURIComponent(email)}`;
+          break;
         default:
           document.body.innerHTML = "<h2>Invalid case</h2>";
           return;
