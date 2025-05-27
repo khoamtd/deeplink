@@ -8,8 +8,9 @@
     document.addEventListener("DOMContentLoaded", () => {
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
+      const actionCase = params.get("case");
 
-      if (!email) {
+      if (!email || !actionCase) {
         document.body.innerHTML = "<h2>Missing email parameter</h2>";
         return;
       }
@@ -18,7 +19,7 @@
       const androidPackage = "com.ptd.femobileapp";
       const iosAppId = "id123456789";
 
-      const deepLink = `${appScheme}://?email=${encodeURIComponent(email)}`;
+      const deepLink = `${appScheme}://?${actionCase}=${encodeURIComponent(email)}`;
       const iosStoreUrl = `https://apps.apple.com/app/${iosAppId}`;
       const androidStoreUrl = `https://play.google.com/store/apps/details?id=${androidPackage}`;
 
