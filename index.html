@@ -5,56 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Opening App...</title>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", () => {
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
-      const actionCase = params.get("case");
 
-      if (!email || !actionCase) {
-        document.body.innerHTML = "<h2>Missing email or case parameter</h2>";
+      if (!email) {
+        document.body.innerHTML = "<h2>Missing email parameter</h2>";
         return;
       }
 
-      // Replace with your app details
       const appScheme = "ptd-mobile";
       const androidPackage = "com.ptd.femobileapp";
       const iosAppId = "id123456789";
 
-      let deepLinkPath;
-      switch (actionCase) {
-        case "invitation":
-          deepLinkPath = `${appScheme}://invitation?email=${encodeURIComponent(email)}`;
-          break;
-        case "reset-password":
-          deepLinkPath = `${appScheme}://reset-password?email=${encodeURIComponent(email)}`;
-          break;
-        case "email":
-          deepLinkPath = `${appScheme}://email?email=${encodeURIComponent(email)}`;
-          break;
-        default:
-          document.body.innerHTML = "<h2>Invalid case</h2>";
-          return;
-      }
+      const deepLink = `${appScheme}://?email=${encodeURIComponent(email)}`;
+      const iosStoreUrl = `https://apps.apple.com/app/${iosAppId}`;
+      const androidStoreUrl = `https://play.google.com/store/apps/details?id=${androidPackage}`;
 
-      // iOS store fallback
-      const iosStore = `https://apps.apple.com/app/${iosAppId}`;
-      // Android store fallback
-      const androidStore = `https://play.google.com/store/apps/details?id=${androidPackage}`;
-
-      // Redirect logic
-      const userAgent = window.navigator.userAgent || "";
-      const isAndroid = /android/i.test(userAgent);
-      const isIOS = /iphone|ipad|ipod/i.test(userAgent);
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isAndroid = userAgent.includes("android");
+      const isIOS = /iphone|ipad|ipod/.test(userAgent);
 
       // Try to open the app
-      window.location.href = deepLinkPath;
+      window.location.href = deepLink;
 
-      // Fallback after short delay
+      // Fallback after delay
       setTimeout(() => {
         if (isAndroid) {
-          window.location.href = androidStore;
+          window.location.href = androidStoreUrl;
         } else if (isIOS) {
-          window.location.href = iosStore;
+          window.location.href = iosStoreUrl;
         } else {
           document.body.innerHTML = "<h2>Unsupported device</h2>";
         }
